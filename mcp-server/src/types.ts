@@ -6,6 +6,8 @@ export type ToolResult<T> = {
   evidence?: string[];
 };
 
+export type Jurisdiction = "EU_GDPR" | "UK_GDPR" | "CCPA";
+
 export interface RepoScanResult {
   frameworks: string[];
   packageManagers: string[];
@@ -32,4 +34,19 @@ export interface CrawlResult {
   meta: Record<string, string>;
   headings: string[];
   links: string[];
+}
+
+export interface GdprGapResult {
+  jurisdiction: Jurisdiction;
+  gaps: Array<{
+    priority: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+    category: string;
+    description: string;
+    remediation: string;
+  }>;
+}
+
+export interface DataFlowResult {
+  nodes: Array<{ id: string; label: string; type?: string }>;
+  edges: Array<{ from: string; to: string; label: string; residency?: string }>;
 }

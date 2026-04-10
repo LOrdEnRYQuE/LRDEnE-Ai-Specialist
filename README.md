@@ -1,6 +1,21 @@
-# LRDEnE Specialist Agents Kit
+## 🚀 Quick Start (Initialization)
 
-A premium, portable pack of AI agents designed to transform your IDE into a high-performance specialist workstation. Compatible with **Cursor**, **Windsurf**, **Antigravity**, **Lovable**, and **Bolt**.
+To initialize the kit and set up the MCP server on your machine:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/LOrdEnRYQuE/LRDEnE-Ai-Specialist.git
+cd LRDEnE-Ai-Specialist
+
+# 2. Run the initialization script
+bash setup.sh
+```
+
+The `setup.sh` script will:
+1. Verify Your Node.js & npm environment.
+2. Install dependencies for the MCP server.
+3. Build the server into `mcp-server/dist/`.
+4. Provide the exact config string to link this kit to your IDE (Cursor, Windsurf, Antigravity).
 
 ## Included Specialists
 

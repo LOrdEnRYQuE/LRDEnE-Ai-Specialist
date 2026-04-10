@@ -22,7 +22,7 @@ import { validateLicense, checkFeatureAccess } from "./utils/license.js";
 const server = new Server(
   {
     name: "specialist-agents",
-    version: "1.1.0",
+    version: "2.0.0",
   },
   {
     capabilities: {

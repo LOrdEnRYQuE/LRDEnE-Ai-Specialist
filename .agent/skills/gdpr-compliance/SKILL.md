@@ -31,8 +31,13 @@ data_flow_map(userFlows)
 
 ### Step 2 — Gap Report
 ```
-gdpr_gap_report(inputs)
-→ Returns: gaps sorted Critical→High→Medium with fixes
+gdpr_gap_report({
+  jurisdiction: "EU_GDPR" | "UK_GDPR" | "CCPA",
+  vendorList: [...],
+  hasCookieBanner: boolean,
+  ...
+})
+→ Returns: region-specific gaps sorted Critical→High→Medium with remediation steps
 ```
 
 ### Step 3 — Policy Inputs

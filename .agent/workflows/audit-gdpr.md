@@ -15,14 +15,15 @@ Trigger: `/audit-gdpr` or "GDPR audit", "privacy review", "check my compliance",
 ## Phase 1: Scope Collection
 
 Ask the user for:
-1. **Product description** — what the app does, who uses it
-2. **Jurisdictions** — EU/EEA, UK, US (CCPA), other?
-3. **Vendor list** — analytics, auth, email, payments, CDN, monitoring
-4. **Data categories** — email, name, location, payment info, health data?
-5. **User flows** — registration, login, checkout, profile, deletion
-6. **Retention rules** — how long is each category of data kept?
+1. **Jurisdiction** — EU GDPR, UK GDPR, or CCPA (California)?
+2. **Product description** — what the app does, who uses it
+3. **Jurisdictions** — EU/EEA, UK, US (CCPA), other?
+4. **Vendor list** — analytics, auth, email, payments, CDN, monitoring
+5. **Data categories** — email, name, location, payment info, health data?
+6. **User flows** — registration, login, checkout, profile, deletion
+7. **Retention rules** — how long is each category of data kept?
 
-> Do not proceed until you have at minimum: product description + jurisdictions.
+> Do not proceed until you have at minimum: **Jurisdiction** + product description.
 
 ---
 
