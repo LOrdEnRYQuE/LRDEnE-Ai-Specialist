@@ -21,7 +21,7 @@ The `setup.sh` script will:
 
 1.  **WebApp Architect**: End-to-end web application development, from scaffolding to deployment.
 2.  **SEO Growth Auditor**: Technical and on-page SEO audits, schema generation, and rank optimization.
-3.  **GDPR Compliance Copilot**: Privacy-by-design reviews, data mapping, and compliance gap reporting.
+3.  **GDPR Compliance Copilot**: Multi-region privacy-by-design reviews (EU, UK, CCPA), data mapping with residency tracking, and compliance gap reporting.
 
 ## Core Features
 
