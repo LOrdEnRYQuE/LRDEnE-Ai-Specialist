@@ -4,7 +4,6 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { z } from "zod";
 
 import { repo_scan } from "./tools/repo_scan.js";
 import { architecture_plan } from "./tools/architecture_plan.js";
@@ -19,10 +18,16 @@ import { dsar_pack } from "./tools/dsar_pack.js";
 
 import { validateLicense, checkFeatureAccess } from "./utils/license.js";
 
+/**
+ * LRDEnE Specialist Agents MCP Server
+ * 
+ * Provides a production-ready toolkit for Web Development, SEO Auditing, 
+ * and GDPR Compliance across Cursor, Windsurf, and Antigravity.
+ */
 const server = new Server(
   {
     name: "specialist-agents",
-    version: "2.0.0",
+    version: "2.1.0",
   },
   {
     capabilities: {
@@ -35,120 +40,124 @@ const LICENSE_KEY = process.env.LICENSE_KEY;
 const currentLicense = validateLicense(LICENSE_KEY);
 
 /**
- * List available tools.
+ * Registry of available professional tools.
+ * Sorted by domain: Development, SEO, Compliance.
  */
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
+      // ─── DEVELOPMENT TOOLS ──────────────────────────────────────────
       {
         name: "repo_scan",
-        description: "Scans a local repository for frameworks, routes, and tech stack indicators. [STARTER+]",
+        description: "Maps a local repository's frameworks, routes, and tech stack using glob patterns. [STARTER+]",
         inputSchema: {
           type: "object",
           properties: {
-            repoPath: { type: "string" },
+            repoPath: { type: "string", description: "Absolute path to the repository root." },
           },
           required: ["repoPath"],
         },
       },
       {
         name: "architecture_plan",
-        description: "Generates a structured architecture proposal for a given feature or app. [PRO+]",
+        description: "Generates a structured tech stack and component proposal based on project goals. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
-            goal: { type: "string" },
-            context: { type: "object" },
+            goal: { type: "string", description: "The feature or application goal to architect." },
+            context: { type: "object", description: "Output from repo_scan for stack-awareness." },
           },
           required: ["goal"],
         },
       },
       {
         name: "scaffold_feature",
-        description: "Creates file stubs and folder structure for a new feature. [PRO+]",
+        description: "Generates real Next.js/Tailwind boilerplate files (page, layout, loading, error). [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
-            featureName: { type: "string" },
-            path: { type: "string" },
+            featureName: { type: "string", description: "Name of the feature (e.g., 'dashboard')." },
+            path: { type: "string", description: "Target directory path for generation." },
           },
           required: ["featureName", "path"],
         },
       },
+      // ─── SEO TOOLS ──────────────────────────────────────────────────
       {
         name: "crawl_site",
-        description: "Crawls a public URL to extract metadata and page structure. [STARTER+]",
+        description: "Performs a live crawl of a URL to extract SEO metadata, headings, and link tree. [STARTER+]",
         inputSchema: {
           type: "object",
           properties: {
-            url: { type: "string" },
+            url: { type: "string", description: "The public URL to inspect." },
           },
           required: ["url"],
         },
       },
       {
         name: "seo_audit",
-        description: "Performs a technical SEO audit on crawl results. [STARTER+]",
+        description: "Audits crawl results for technical SEO issues (title, meta, H1, links). [STARTER+]",
         inputSchema: {
           type: "object",
           properties: {
-            crawlData: { type: "object" },
+            crawlData: { type: "object", description: "The data returned from crawl_site." },
           },
           required: ["crawlData"],
         },
       },
       {
         name: "schema_markup",
-        description: "Generates JSON-LD schema markup for a specific page type. [PRO+]",
+        description: "Generates valid JSON-LD schema.org records for SEO optimization. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
-            pageType: { type: "string" },
-            data: { type: "object" },
+            pageType: { type: "string", description: "Type of schema (Article, Product, etc.)." },
+            data: { type: "object", description: "Key-value pairs for the schema properties." },
           },
           required: ["pageType", "data"],
         },
       },
+      // ─── COMPLIANCE TOOLS ───────────────────────────────────────────
       {
         name: "privacy_policy_inputs",
-        description: "Collects structured inputs for generating a privacy policy draft. [PRO+]",
+        description: "Extracts structured data required for drafting a legal privacy policy. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
-            productDesc: { type: "string" },
+            productDesc: { type: "string", description: "Brief description of the product and its data usage." },
           },
           required: ["productDesc"],
         },
       },
       {
         name: "data_flow_map",
-        description: "Maps personal data touchpoints across user flows. [PRO+]",
+        description: "Traces personal data touchpoints and residency for jurisdictional audits. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
-            userFlows: { type: "array", items: { type: "string" } },
+            userFlows: { type: "array", items: { type: "string" }, description: "List of user actions involving data." },
           },
           required: ["userFlows"],
         },
       },
       {
         name: "gdpr_gap_report",
-        description: "Identifies compliance gaps based on product data. [PRO+]",
+        description: "Audits compliance gaps against EU GDPR, UK GDPR, and CCPA standards. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
-            inputs: { type: "object" },
+            inputs: { type: "object", description: "Detailed jurisdictional and vendor inputs." },
           },
           required: ["inputs"],
         },
       },
       {
         name: "dsar_pack",
-        description: "Generates templates for responding to Data Subject Access Requests (DSAR). [PRO+]",
+        description: "Generates professional templates for responding to Data Subject Access Requests. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
-            requestType: { type: "string" },
+            requestType: { type: "string", enum: ["access", "deletion", "portability"], description: "The type of DSAR." },
           },
           required: ["requestType"],
         },
@@ -158,11 +167,15 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 });
 
 /**
- * Handle tool calls.
+ * Primary Tool Execution Handler
+ * 
+ * Enforces tier-gating and executes specialist logic. 
+ * Results are returned as formatted JSON for LLM consumption.
  */
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
+  // 1. Tier Enforcement
   if (!checkFeatureAccess(currentLicense, name)) {
     return {
       content: [{ type: "text", text: `Error: Access denied for tool "${name}". This tool requires a PRO license.` }],
@@ -170,6 +183,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
+  // 2. Execution
   try {
     switch (name) {
       case "repo_scan":
@@ -204,15 +218,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 });
 
 /**
- * Start the server using stdio transport.
+ * Server Initialization
  */
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Specialist Agents MCP server running on stdio");
+  console.error("LRDEnE Specialist Agents MCP server running on stdio");
 }
 
 main().catch((error) => {
-  console.error("Server error:", error);
+  console.error("Fatal Server error:", error);
   process.exit(1);
 });

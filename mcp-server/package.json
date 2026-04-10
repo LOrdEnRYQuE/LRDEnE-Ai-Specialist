@@ -1,7 +1,17 @@
 {
   "name": "@lrdene/specialist-mcp-server",
-  "version": "2.0.0",
-  "description": "Shared MCP server for LRDEnE Specialist Agents",
+  "version": "2.1.0",
+  "description": "Professional Specialist Agent Pack MCP Server — provides repo mapping, auditing, and scaffolding tools.",
+  "author": "LRDEnE",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LOrdEnRYQuE/LRDEnE-Ai-Specialist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LOrdEnRYQuE/LRDEnE-Ai-Specialist/issues"
+  },
+  "homepage": "https://github.com/LOrdEnRYQuE/LRDEnE-Ai-Specialist#readme",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

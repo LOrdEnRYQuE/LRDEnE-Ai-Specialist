@@ -35,7 +35,7 @@ architecture_plan(goal, context)
 ### Step 3 — Scaffold
 ```
 scaffold_feature(featureName, path)
-→ Returns: list of created files/directories
+→ Returns: list of generated boilerplate files (page.tsx, layout.tsx, etc.)
 ```
 
 ## Output Format
