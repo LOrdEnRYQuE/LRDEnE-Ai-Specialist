@@ -30,9 +30,9 @@ NPM_VERSION=$(npm --version)
 echo -e "${GREEN}✓ npm found:${NC} $NPM_VERSION"
 echo ""
 
-# ── 3. Install MCP server dependencies ───────────────────────────────
+# ── 3. Install MCP server dependencies directly (no workspace loop) ───
 echo -e "${YELLOW}⬇ Installing MCP server dependencies...${NC}"
-cd mcp-server
+cd "$(dirname "$0")/mcp-server"
 npm install
 echo -e "${GREEN}✓ Dependencies installed${NC}"
 echo ""
@@ -45,23 +45,30 @@ cd ..
 echo ""
 
 # ── 5. Print next steps ───────────────────────────────────────────────
-ABS_PATH=$(pwd)/mcp-server/dist/index.js
+ABS_PATH="$(pwd)/mcp-server/dist/index.js"
 
 echo "────────────────────────────────────────────"
 echo -e "${GREEN}✅ Setup complete!${NC}"
 echo ""
-echo "Next steps:"
+echo "Register the MCP server in your IDE:"
 echo ""
-echo "  CURSOR:"
-echo "    Settings → MCP → Add Server"
-echo "    Command: node $ABS_PATH"
+echo "  CURSOR (Settings → MCP → Add Server):"
+echo "    Name:    specialist-agents"
+echo "    Type:    command"
+echo "    Command: node"
+echo "    Args:    $ABS_PATH"
 echo ""
-echo "  WINDSURF:"
-echo "    Add to mcp_config.json:"
-echo "    { \"command\": \"node\", \"args\": [\"$ABS_PATH\"] }"
+echo "  WINDSURF / ANTIGRAVITY (mcp_config.json):"
+cat << EOF
+    {
+      "mcpServers": {
+        "specialist-agents": {
+          "command": "node",
+          "args": ["$ABS_PATH"]
+        }
+      }
+    }
+EOF
 echo ""
-echo "  ANTIGRAVITY:"
-echo "    Register MCP → Command: node $ABS_PATH"
-echo ""
-echo "  See docs/ for full install guides."
+echo "  See docs/ for full platform-specific guides."
 echo "────────────────────────────────────────────"

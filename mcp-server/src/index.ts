@@ -17,10 +17,12 @@ import { data_flow_map } from "./tools/data_flow_map.js";
 import { gdpr_gap_report } from "./tools/gdpr_gap_report.js";
 import { dsar_pack } from "./tools/dsar_pack.js";
 
+import { validateLicense, checkFeatureAccess } from "./utils/license.js";
+
 const server = new Server(
   {
     name: "specialist-agents",
-    version: "1.0.0",
+    version: "1.1.0",
   },
   {
     capabilities: {
@@ -28,6 +30,9 @@ const server = new Server(
     },
   }
 );
+
+const LICENSE_KEY = process.env.LICENSE_KEY;
+const currentLicense = validateLicense(LICENSE_KEY);
 
 /**
  * List available tools.
@@ -37,7 +42,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "repo_scan",
-        description: "Scans a local repository for frameworks, routes, and tech stack indicators.",
+        description: "Scans a local repository for frameworks, routes, and tech stack indicators. [STARTER+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -48,7 +53,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "architecture_plan",
-        description: "Generates a structured architecture proposal for a given feature or app.",
+        description: "Generates a structured architecture proposal for a given feature or app. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -60,7 +65,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "scaffold_feature",
-        description: "Creates file stubs and folder structure for a new feature.",
+        description: "Creates file stubs and folder structure for a new feature. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -72,7 +77,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "crawl_site",
-        description: "Crawls a public URL to extract metadata and page structure.",
+        description: "Crawls a public URL to extract metadata and page structure. [STARTER+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -83,7 +88,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "seo_audit",
-        description: "Performs a technical SEO audit on crawl results.",
+        description: "Performs a technical SEO audit on crawl results. [STARTER+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -94,7 +99,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "schema_markup",
-        description: "Generates JSON-LD schema markup for a specific page type.",
+        description: "Generates JSON-LD schema markup for a specific page type. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -106,7 +111,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "privacy_policy_inputs",
-        description: "Collects structured inputs for generating a privacy policy draft.",
+        description: "Collects structured inputs for generating a privacy policy draft. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -117,7 +122,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "data_flow_map",
-        description: "Maps personal data touchpoints across user flows.",
+        description: "Maps personal data touchpoints across user flows. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -128,7 +133,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "gdpr_gap_report",
-        description: "Identifies compliance gaps based on product data.",
+        description: "Identifies compliance gaps based on product data. [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -139,7 +144,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "dsar_pack",
-        description: "Generates templates for responding to Data Subject Access Requests (DSAR).",
+        description: "Generates templates for responding to Data Subject Access Requests (DSAR). [PRO+]",
         inputSchema: {
           type: "object",
           properties: {
@@ -157,6 +162,13 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
  */
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
+
+  if (!checkFeatureAccess(currentLicense, name)) {
+    return {
+      content: [{ type: "text", text: `Error: Access denied for tool "${name}". This tool requires a PRO license.` }],
+      isError: true,
+    };
+  }
 
   try {
     switch (name) {

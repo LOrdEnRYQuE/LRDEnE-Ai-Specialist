@@ -51,10 +51,28 @@ Format: [Semantic Versioning](https://semver.org)
 
 ---
 
-## Roadmap
+## [1.2.0] — 2026-04-10
 
-- [ ] v1.1 — Live `crawl_site` implementation using `puppeteer` or `playwright`
-- [ ] v1.1 — Live `repo_scan` using `glob` + AST parsing
-- [ ] v1.2 — Tier-gating mechanism (Starter / Pro / Agency feature flags)
-- [ ] v1.3 — npm package release (`@lrdene/specialist-mcp-server`)
-- [ ] v2.0 — Custom jurisdiction packs for UK GDPR, CCPA, and PIPEDA
+### Added
+- **Tier-gating**: Implemented Starter vs Pro enforcement in MCP server.
+  - Starter: `repo_scan`, `crawl_site`, `seo_audit`.
+  - Pro: All tools including `architecture_plan`, `scaffold_feature`, `schema_markup`, and all GDPR tools.
+- **License System**: Mock license validation via `LICENSE_KEY` environment variable.
+
+---
+
+## [1.1.0] — 2026-04-10
+
+### Added
+- **Live Tools**:
+  - `repo_scan`: Now uses `glob` to detect real project files, routes, and API endpoints.
+  - `crawl_site`: Now uses `node-fetch` and `cheerio` for real HTML extraction and basic SEO auditing.
+  - `seo_audit`: Uses real crawl data to generate prioritized findings.
+  - `architecture_plan`: Context-aware plan generation based on `repo_scan` results.
+
+---
+
+## [1.0.0] — 2026-04-10
+
+### Added
+...
