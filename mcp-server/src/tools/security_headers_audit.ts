@@ -18,9 +18,9 @@ export async function security_headers_audit(repoPath: string): Promise<ToolResu
       const content = fs.readFileSync(fullPath, "utf-8");
       for (const h of headers) {
         if (!h.regex.test(content)) {
-          findings.push({ header: h.name, status: "MISSING", priority: "MEDIUM" });
+          findings.push({ header: h.name, status: "SOURCE_NOT_CONFIGURED", priority: "MEDIUM", note: "Not found in codebase; verify at runtime/proxy level." });
         } else {
-          findings.push({ header: h.name, status: "PRESENT", priority: "NONE" });
+          findings.push({ header: h.name, status: "CONFIGURED_IN_SOURCE", priority: "NONE" });
         }
       }
     }

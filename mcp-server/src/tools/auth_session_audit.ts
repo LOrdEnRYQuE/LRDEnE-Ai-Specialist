@@ -11,9 +11,9 @@ export async function auth_session_audit(repoPath: string): Promise<ToolResult<a
   });
 
   const patterns = [
-    { id: "SECURE_COOKIE", regex: /httpOnly:\s*false/g, desc: "Cookie has 'httpOnly: false'", prio: "HIGH" },
-    { id: "UNSAFE_SAMESITE", regex: /sameSite:\s*['"]none['"]/g, desc: "Cookie has 'sameSite: none' without 'secure: true' check", prio: "MEDIUM" },
-    { id: "SHORT_PASS", regex: /minLength:\s*[0-7][^0-9]/g, desc: "Weak password minimum length detected", prio: "MEDIUM" }
+    { id: "SECURE_COOKIE_INDICATOR", regex: /httpOnly:\s*false/g, desc: "Possible missing httpOnly flag on cookie", prio: "HIGH" },
+    { id: "UNSAFE_SAMESITE_INDICATOR", regex: /sameSite:\s*['"]none['"]/g, desc: "Suspicious sameSite config without evidence of secure check", prio: "MEDIUM" },
+    { id: "WEAK_PASS_INDICATOR", regex: /minLength:\s*[0-7][^0-9]/g, desc: "Weak password length indicator detected", prio: "MEDIUM" }
   ];
 
   for (const file of files) {

@@ -1,7 +1,7 @@
 import { ToolResult } from "../types.js";
 import { scanDependencies } from "../utils/security.js";
 
-const KNOWN_VULNERABLE: Record<string, string> = {
+const RISK_INDICATORS: Record<string, string> = {
   "lodash": "<4.17.21",
   "express": "<4.19.2",
   "axios": "<1.7.4",
@@ -13,22 +13,29 @@ export async function dependency_risk_scan(repoPath: string): Promise<ToolResult
   const risks: any[] = [];
 
   for (const pkg of packages) {
-    const vulnRange = KNOWN_VULNERABLE[pkg.name];
-    if (vulnRange) {
+    const riskRange = RISK_INDICATORS[pkg.name];
+    if (riskRange) {
       risks.push({
         name: pkg.name,
         version: pkg.version,
-        risk: "Known Vulnerability (CVE)",
+        riskType: "Security Risk Indicator (Heuristic)",
+        label: "Outdated Sensitive Package",
         transitive: pkg.transitive,
-        priority: pkg.transitive ? "MEDIUM" : "HIGH"
+        priority: pkg.transitive ? "MEDIUM" : "HIGH",
+        chain: pkg.transitive ? `via [lockfile tree]` : "app -> direct"
       });
     }
   }
 
   return {
     ok: true,
-    summary: `Scanned ${packages.length} packages (${mode}). Found ${risks.length} risks.`,
-    data: { mode, packageCount: packages.length, risks },
-    evidence: risks.map(r => `${r.name}@${r.version} (${r.transitive ? 'transitive' : 'direct'})`)
+    summary: `Scanned ${packages.length} packages (${mode}). Found ${risks.length} Risk Indicators.`,
+    data: { 
+      mode, 
+      packageCount: packages.length, 
+      risks,
+      disclaimer: "Findings reflect heuristic risk patterns. Not a confirmed CVE match from an advisory database."
+    },
+    evidence: risks.map(r => `${r.name}@${r.version} (${r.chain})`)
   };
 }
