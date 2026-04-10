@@ -175,21 +175,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "repo_scan":
         return { content: [{ type: "text", text: JSON.stringify(await repo_scan(args?.repoPath as string), null, 2) }] };
       case "architecture_plan":
-        return { content: [{ type: "text", text: JSON.stringify(await architecture_plan(args?.goal as string, args?.context), null, 2) }] };
+        return { content: [{ type: "text", text: JSON.stringify(await architecture_plan(args?.goal as string, args?.context as any), null, 2) }] };
       case "scaffold_feature":
         return { content: [{ type: "text", text: JSON.stringify(await scaffold_feature(args?.featureName as string, args?.path as string), null, 2) }] };
       case "crawl_site":
         return { content: [{ type: "text", text: JSON.stringify(await crawl_site(args?.url as string), null, 2) }] };
       case "seo_audit":
-        return { content: [{ type: "text", text: JSON.stringify(await seo_audit(args?.crawlData), null, 2) }] };
+        return { content: [{ type: "text", text: JSON.stringify(await seo_audit(args?.crawlData as any), null, 2) }] };
       case "schema_markup":
-        return { content: [{ type: "text", text: JSON.stringify(await schema_markup(args?.pageType as string, args?.data), null, 2) }] };
+        return { content: [{ type: "text", text: JSON.stringify(await schema_markup(args?.pageType as string, args?.data as any), null, 2) }] };
       case "privacy_policy_inputs":
         return { content: [{ type: "text", text: JSON.stringify(await privacy_policy_inputs(args?.productDesc as string), null, 2) }] };
       case "data_flow_map":
         return { content: [{ type: "text", text: JSON.stringify(await data_flow_map(args?.userFlows as string[]), null, 2) }] };
       case "gdpr_gap_report":
-        return { content: [{ type: "text", text: JSON.stringify(await gdpr_gap_report(args?.inputs), null, 2) }] };
+        return { content: [{ type: "text", text: JSON.stringify(await gdpr_gap_report(args?.inputs as any), null, 2) }] };
       case "dsar_pack":
         return { content: [{ type: "text", text: JSON.stringify(await dsar_pack(args?.requestType as string), null, 2) }] };
       default:

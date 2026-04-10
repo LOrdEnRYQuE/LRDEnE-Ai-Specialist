@@ -20,8 +20,7 @@
             "command": "node",
             "args": [
                 "/Users/leads/dev/AI-Specialists /mcp-server/dist/index.js"
-            ],
-            "description": "LRDEnE Specialist Agents MCP Server — provides repo_scan, architecture_plan, scaffold_feature, crawl_site, seo_audit, schema_markup, data_flow_map, gdpr_gap_report, privacy_policy_inputs, dsar_pack"
+            ]
         }
     }
 }
