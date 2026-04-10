@@ -44,13 +44,30 @@ echo -e "${GREEN}✓ Build complete → mcp-server/dist/index.js${NC}"
 cd ..
 echo ""
 
-# ── 5. Print next steps ───────────────────────────────────────────────
+# ── 5. Configure .agent/mcp_config.json ────────────────────────────────
+echo -e "${YELLOW}⚙️ Configuring .agent/mcp_config.json...${NC}"
 ABS_PATH="$(pwd)/mcp-server/dist/index.js"
+CONFIG_FILE=".agent/mcp_config.json"
 
+if [ -f "$CONFIG_FILE" ]; then
+  # Detect OS for sed compatibility
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s|\"args\": \[\".*\"\]|\"args\": \[\"$ABS_PATH\"\]|g" "$CONFIG_FILE"
+  else
+    sed -i "s|\"args\": \[\".*\"\]|\"args\": \[\"$ABS_PATH\"\]|g" "$CONFIG_FILE"
+  fi
+  echo -e "${GREEN}✓ .agent/mcp_config.json updated with local path.${NC}"
+else
+  echo -e "${YELLOW}⚠ .agent/mcp_config.json not found. Skipping auto-config.${NC}"
+fi
+echo ""
+
+# ── 6. Print next steps ──────────────────────────────────────────────
 echo "────────────────────────────────────────────"
 echo -e "${GREEN}✅ Setup complete!${NC}"
 echo ""
-echo "Register the MCP server in your IDE:"
+echo "The specialist agents are now active via the .agent/ folder."
+echo "Register the global MCP server in your IDE if you want to use it elsewhere:"
 echo ""
 echo "  CURSOR (Settings → MCP → Add Server):"
 echo "    Name:    specialist-agents"
@@ -58,17 +75,9 @@ echo "    Type:    command"
 echo "    Command: node"
 echo "    Args:    $ABS_PATH"
 echo ""
-echo "  WINDSURF / ANTIGRAVITY (mcp_config.json):"
-cat << EOF
-    {
-      "mcpServers": {
-        "specialist-agents": {
-          "command": "node",
-          "args": ["$ABS_PATH"]
-        }
-      }
-    }
-EOF
+echo "  WINDSURF / ANTIGRAVITY (Current Workspace):"
+echo "    The .agent/mcp_config.json has been automatically updated."
+echo "    Simply restart your agent or workspace to refresh."
 echo ""
 echo "  See docs/ for full platform-specific guides."
 echo "────────────────────────────────────────────"
