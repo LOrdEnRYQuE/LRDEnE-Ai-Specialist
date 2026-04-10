@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -21,17 +22,17 @@ export default function RootLayout({
         <div className="flex h-screen bg-[#050505] text-white">
           {/* Sidebar */}
           <aside className="w-64 border-r border-white/10 bg-black p-6 flex flex-col gap-8">
-            <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3">
               <div className="w-8 h-8 rounded bg-indigo-600 flex items-center justify-center font-bold text-lg shadow-[0_0_15px_rgba(79,70,229,0.5)]">L</div>
               <span className="font-outfit font-bold text-xl tracking-tight">LRDEnE</span>
-            </div>
+            </Link>
 
             <nav className="flex flex-col gap-2">
-              <div className="nav-item active">Dashboard</div>
-              <div className="nav-item">Agents</div>
-              <div className="nav-item">Toolbox</div>
-              <div className="nav-item">Audits</div>
-              <div className="nav-item">Settings</div>
+              <Link href="/" className="nav-item">Dashboard</Link>
+              <div className="nav-item opacity-50 cursor-not-allowed">Agents</div>
+              <div className="nav-item opacity-50 cursor-not-allowed">Toolbox</div>
+              <Link href="/audits" className="nav-item">Audits</Link>
+              <div className="nav-item opacity-50 cursor-not-allowed">Settings</div>
             </nav>
 
             <div className="mt-auto p-4 glass-card text-xs text-neutral-500">
@@ -39,7 +40,7 @@ export default function RootLayout({
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span>MCP Server Live</span>
               </div>
-              <div>v2.1.0 (Specialist Pack)</div>
+              <div>v2.2.0 (Security Pack)</div>
             </div>
           </aside>
 

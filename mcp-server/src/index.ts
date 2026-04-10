@@ -15,6 +15,11 @@ import { privacy_policy_inputs } from "./tools/privacy_policy_inputs.js";
 import { data_flow_map } from "./tools/data_flow_map.js";
 import { gdpr_gap_report } from "./tools/gdpr_gap_report.js";
 import { dsar_pack } from "./tools/dsar_pack.js";
+import { secret_scan } from "./tools/secret_scan.js";
+import { dependency_risk_scan } from "./tools/dependency_risk_scan.js";
+import { auth_session_audit } from "./tools/auth_session_audit.js";
+import { security_headers_audit } from "./tools/security_headers_audit.js";
+import { hardening_report } from "./tools/hardening_report.js";
 
 import { validateLicense, checkFeatureAccess } from "./utils/license.js";
 
@@ -162,6 +167,64 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: ["requestType"],
         },
       },
+      // ─── SECURITY TOOLS ─────────────────────────────────────────────
+      {
+        name: "secret_scan",
+        description: "Scans project for hardcoded secrets (AWS, Stripe, Private Keys). [PRO+]",
+        inputSchema: {
+          type: "object",
+          properties: {
+            repoPath: { type: "string", description: "Path to repository." },
+          },
+          required: ["repoPath"],
+        },
+      },
+      {
+        name: "dependency_risk_scan",
+        description: "Deep lockfile scan for vulnerable transitive and direct packages. [PRO+]",
+        inputSchema: {
+          type: "object",
+          properties: {
+            repoPath: { type: "string", description: "Path to repository." },
+          },
+          required: ["repoPath"],
+        },
+      },
+      {
+        name: "auth_session_audit",
+        description: "Audits auth/session config for insecure cookie/password patterns. [PRO+]",
+        inputSchema: {
+          type: "object",
+          properties: {
+            repoPath: { type: "string", description: "Path to repository." },
+          },
+          required: ["repoPath"],
+        },
+      },
+      {
+        name: "security_headers_audit",
+        description: "Checks config files for missing CSP/HSTS headers. [PRO+]",
+        inputSchema: {
+          type: "object",
+          properties: {
+            repoPath: { type: "string", description: "Path to repository." },
+          },
+          required: ["repoPath"],
+        },
+      },
+      {
+        name: "hardening_report",
+        description: "Aggregates security findings into a severit-ranked log entry. [PRO+]",
+        inputSchema: {
+          type: "object",
+          properties: {
+            projectName: { type: "string" },
+            projectPath: { type: "string" },
+            findings: { type: "array", items: { type: "object" } },
+          },
+          required: ["projectName", "projectPath", "findings"],
+        },
+      },
     ],
   };
 });
@@ -206,6 +269,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content: [{ type: "text", text: JSON.stringify(await gdpr_gap_report(args?.inputs as any), null, 2) }] };
       case "dsar_pack":
         return { content: [{ type: "text", text: JSON.stringify(await dsar_pack(args?.requestType as string), null, 2) }] };
+      case "secret_scan":
+        return { content: [{ type: "text", text: JSON.stringify(await secret_scan(args?.repoPath as string), null, 2) }] };
+      case "dependency_risk_scan":
+        return { content: [{ type: "text", text: JSON.stringify(await dependency_risk_scan(args?.repoPath as string), null, 2) }] };
+      case "auth_session_audit":
+        return { content: [{ type: "text", text: JSON.stringify(await auth_session_audit(args?.repoPath as string), null, 2) }] };
+      case "security_headers_audit":
+        return { content: [{ type: "text", text: JSON.stringify(await security_headers_audit(args?.repoPath as string), null, 2) }] };
+      case "hardening_report":
+        return { content: [{ type: "text", text: JSON.stringify(await hardening_report(args?.projectName as string, args?.projectPath as string, args?.findings as any[]), null, 2) }] };
       default:
         throw new Error(`Tool not found: ${name}`);
     }

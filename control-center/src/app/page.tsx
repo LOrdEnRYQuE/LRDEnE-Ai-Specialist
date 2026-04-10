@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Activity, ShieldCheck, Search, Cpu, Layers, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { Activity, ShieldCheck, Search, Cpu, Layers, ExternalLink, History } from "lucide-react";
 
 const STATS = [
   { label: "Agents Active", value: "3", icon: Cpu, color: "text-indigo-400" },
@@ -31,21 +32,33 @@ const AGENTS = [
     tools: ["gdpr_gap_report", "data_flow_map", "dsar_pack"],
     color: "from-emerald-500/20 to-emerald-500/5",
   },
+  {
+    name: "Security Hardening Auditor",
+    desc: "Deep security audits & secrets scanning.",
+    status: "Ready",
+    tools: ["secret_scan", "dependency_risk_scan", "hardening_report"],
+    color: "from-red-500/20 to-red-500/5",
+  },
 ];
 
 export default function Dashboard() {
   return (
     <div className="max-w-6xl mx-auto space-y-12">
       {/* Header */}
-      <header className="space-y-2">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-outfit font-bold tracking-tight bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent"
-        >
-          Control Center
-        </motion.h1>
-        <p className="text-neutral-400 text-lg">Manage your LRDEnE Specialist Agents and view system telemetry.</p>
+      <header className="flex justify-between items-start">
+        <div className="space-y-2">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl font-outfit font-bold tracking-tight bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent"
+          >
+            Control Center
+          </motion.h1>
+          <p className="text-neutral-400 text-lg">Manage your LRDEnE Specialist Agents and view system telemetry.</p>
+        </div>
+        <Link href="/audits" className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all flex items-center gap-2 text-xs font-bold font-outfit">
+           <History className="w-4 h-4 text-indigo-400" /> VIEW AUDIT HISTORY
+        </Link>
       </header>
 
       {/* Stats Grid */}
