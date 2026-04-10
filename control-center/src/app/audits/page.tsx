@@ -1,9 +1,9 @@
 // Server Component for fetching audit logs directly from the filesystem
 import * as fs from "fs";
-import { AUDIT_LOG_DIR } from "../../../../../mcp-server/src/utils/constants";
-import { AuditLogEntry } from "../../../../../mcp-server/src/utils/logger";
+import { AUDIT_LOG_DIR } from "../../../../mcp-server/src/utils/constants";
+import { AuditLogEntry } from "../../../../mcp-server/src/utils/logger";
 import AuditLogsTable from "./AuditLogsTable";
-import { ShieldCheck, History } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 async function getAuditLogs(): Promise<AuditLogEntry[]> {
   if (!fs.existsSync(AUDIT_LOG_DIR)) return [];

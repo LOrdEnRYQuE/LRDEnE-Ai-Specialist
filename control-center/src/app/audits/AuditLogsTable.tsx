@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldAlert, ExternalLink, Filter, Search } from "lucide-react";
-import { useState } from "react";
-import { AuditLogEntry } from "../../../../../mcp-server/src/utils/logger";
+import { ShieldAlert, ExternalLink, Search } from "lucide-react";
+import React, { useState } from "react";
+import { AuditLogEntry } from "../../../../mcp-server/src/utils/logger";
 
 export default function AuditLogsTable({ initialLogs }: { initialLogs: AuditLogEntry[] }) {
   const [search, setSearch] = useState("");
@@ -21,7 +21,7 @@ export default function AuditLogsTable({ initialLogs }: { initialLogs: AuditLogE
            <input 
              type="text" 
              value={search}
-             onChange={(e) => setSearch(e.target.value)}
+             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
              placeholder="Search audits by project or agent..." 
              className="w-full bg-black/40 border border-white/10 rounded-md py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-indigo-500/50 transition-all"
            />
@@ -40,7 +40,7 @@ export default function AuditLogsTable({ initialLogs }: { initialLogs: AuditLogE
             </tr>
           </thead>
           <tbody className="divide-y divide-white/[0.05]">
-            {filteredLogs.map((log, i) => (
+            {filteredLogs.map((log: AuditLogEntry, i: number) => (
               <motion.tr 
                 key={log.auditId}
                 initial={{ opacity: 0, x: -10 }}
@@ -73,9 +73,7 @@ export default function AuditLogsTable({ initialLogs }: { initialLogs: AuditLogE
                   </button>
                 </td>
               </motion.tr>
-            ) == null && (
-               <tr><td colSpan={5} className="p-12 text-center text-neutral-500 italic">No audits found. Run a scan to begin.</td></tr>
-            )}
+            ))}
             {filteredLogs.length === 0 && (
                <tr><td colSpan={5} className="p-12 text-center text-neutral-500 italic">No audits found. Run a scan to begin.</td></tr>
             )}
