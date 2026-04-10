@@ -1,0 +1,26 @@
+{
+  "name": "specialist-agent-pack",
+  "version": "1.0.0",
+  "description": "Premium Specialist Agent Kit for Cursor, Windsurf, Antigravity, Lovable, and Bolt",
+  "private": true,
+  "workspaces": [
+    "core",
+    "mcp-server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "install": "npm install --workspaces"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "mcp",
+    "cursor",
+    "windsurf",
+    "antigravity",
+    "seo",
+    "gdpr"
+  ],
+  "author": "LRDEnE",
+  "license": "MIT"
+}

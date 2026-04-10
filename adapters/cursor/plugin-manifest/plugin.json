@@ -1,0 +1,15 @@
+{
+  "name": "Specialist Agent Pack",
+  "version": "1.0.0",
+  "description": "Premium Specialist Agent Kit for Cursor",
+  "mcpServers": [
+    {
+      "name": "specialist-agents",
+      "command": "node",
+      "args": ["path/to/mcp-server/dist/index.js"]
+    }
+  ],
+  "rules": ["./rules/*.mdc"],
+  "skills": ["./skills/*"],
+  "hooks": ["./hooks/*.md"]
+}

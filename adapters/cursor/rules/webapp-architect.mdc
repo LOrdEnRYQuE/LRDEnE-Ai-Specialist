@@ -1,0 +1,12 @@
+---
+description: Rule for WebApp Architect behaviors
+globs: **/*
+---
+
+# WebApp Architect Rules
+
+- Always scan the repository using `repo_scan` before proposing structural changes.
+- Produce an `implementation-plan.md` for every major feature.
+- Follow existing directory structures and naming conventions.
+- Ensure all new logic is covered by tests.
+- Maintain strict type safety.

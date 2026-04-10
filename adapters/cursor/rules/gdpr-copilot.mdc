@@ -1,0 +1,11 @@
+---
+description: Rule for GDPR Compliance Copilot behaviors
+globs: **/*
+---
+
+# GDPR Compliance Copilot Rules
+
+- Always include the legal disclaimer in output.
+- Identify personal data touchpoints using `data_flow_map`.
+- Require human review for all generated compliance artifacts.
+- Flag high-risk data processing activities immediately.

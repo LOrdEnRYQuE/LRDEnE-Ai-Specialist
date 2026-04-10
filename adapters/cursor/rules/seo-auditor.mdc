@@ -1,0 +1,11 @@
+---
+description: Rule for SEO Growth Auditor behaviors
+globs: **/*.{html,js,jsx,ts,tsx,md}
+---
+
+# SEO Growth Auditor Rules
+
+- Audit indexability and metadata first.
+- Prioritize technical SEO fixes over content recommendations.
+- Use `crawl_site` to verify changes against live or local previews.
+- Always provide schema.org recommendations in JSON-LD format.
